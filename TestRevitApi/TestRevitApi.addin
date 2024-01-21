@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<AddIn Type="Command">
+		<Text>Command TestRevitApi</Text>
+		<Description>TestRevitApi</Description>
+		<Assembly>TestRevitApi.dll</Assembly>
+		<FullClassName>TestRevitApi.Command</FullClassName>
+		<ClientId>14a21a9c-b4a5-4f5e-9a20-6d594206486a</ClientId>
+		<VendorId>Tobic</VendorId>
+		<VendorDescription>Tobic</VendorDescription>
+	</AddIn>
+	<AddIn Type="Application">
+		<Name>Application TestRevitApi</Name>
+		<Assembly>TestRevitApi.dll</Assembly>
+		<FullClassName>TestRevitApi.App</FullClassName>
+		<ClientId>7fbc57d9-b549-44d7-aa05-116af47acabf</ClientId>
+		<VendorId>Tobic</VendorId>
+		<VendorDescription>Tobic</VendorDescription>
+	</AddIn>
+</RevitAddIns>
