@@ -19,76 +19,28 @@ namespace TestRevitApi
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             UIDocument uiDoc = commandData.Application.ActiveUIDocument;
-            Autodesk.Revit.DB.Document doc = uiDoc.Document;
-
-            var ids = uiDoc.Selection.GetElementIds();
-
-            var beams = new FilteredElementCollector(doc)
-                 .OfCategory(BuiltInCategory.OST_StructuralFraming).WhereElementIsNotElementType();
-                 
-
-            var idMains = beams
-                .Where(x => x.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).AsString() == "Main")
-                .Select(x=>x.Id).ToList();
+            Document doc = uiDoc.Document;
+            IEnumerable<FamilyInstance> colleciton = new FilteredElementCollector(doc, doc.ActiveView.Id)
+                .OfCategory(BuiltInCategory.OST_StructuralColumns).OfClass(typeof(FamilyInstance)).
+                WhereElementIsNotElementType().Cast<FamilyInstance>();
 
 
-            // filter theo revit dung de add filter cho bang filter
-            ElementId elementId = new ElementId(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS); 
-            ParameterValueProvider parameterValueProvider = new ParameterValueProvider(elementId); // fiilter tren parameter nao
-            var filterRule = new FilterStringRule(parameterValueProvider, new FilterStringEquals(), "Main");
-            ElementParameterFilter parameterFilter = new ElementParameterFilter(filterRule);
-            // Dung de tao filter bo filter
-
-            var pattern = new FilteredElementCollector(doc).OfClass(typeof(FillPatternElement)).Cast<FillPatternElement>().First(); 
-
-            IList<ElementId> categoryIds= new List<ElementId>();
-            categoryIds.Add(new ElementId(BuiltInCategory.OST_StructuralFraming));
-
-            using(Transaction tr=new Transaction(doc, "AddFilter"))
+            List<ColumnData> columns = new List<ColumnData>();
+            foreach (var item in colleciton)
             {
-                tr.Start();
-                ParameterFilterElement filterInVG = ParameterFilterElement.Create(doc, "FilterComment", categoryIds);
-                filterInVG.SetElementFilter(parameterFilter);
-
-                doc.ActiveView.AddFilter(filterInVG.Id);
-                doc.ActiveView.SetFilterVisibility(filterInVG.Id, false);
-                OverrideGraphicSettings overColor= new OverrideGraphicSettings();
-                overColor.SetSurfaceForegroundPatternColor(new Color(255, 0, 0));  
-                overColor.SetSurfaceForegroundPatternId(pattern.Id);
-                doc.ActiveView.SetFilterOverrides(filterInVG.Id,overColor);
-                
-                tr.Commit();
+                string comment = item.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).AsString();
+                ColumnData columnData = new ColumnData(item.Name, comment, item.Id);
+                columns.Add(columnData);
             }
 
-            //var idMainRevit = beams.WherePasses(parameterFilter).Select(x=>x.Id).ToList();
-
-
-
-
-            //Element element = null;
-            //Parameter para = element.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS);// Par;
-            //string valueComment= para.AsString();// 
-            //uiDoc.Selection.SetElementIds(idMainRevit);//
-
-
+            ListBoxColumn form = new ListBoxColumn();
+            form.listViewColumn.ItemsSource = columns;
+            form.Show();
 
 
             return Result.Succeeded;
         }
         
-        public bool IsNumer(string text,out double number)
-        {
-            double numberInput = 0;
-            bool isNumber= double.TryParse(text,out numberInput);
-            number = numberInput;
-            return isNumber;
-        }
-        public bool RefNumber(string text,ref double number)
-        {
-            double numberInput = 0;
-            bool isNumber = double.TryParse(text, out numberInput);
-            return isNumber;
-        }
     }
 
 
