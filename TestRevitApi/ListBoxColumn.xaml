@@ -10,12 +10,13 @@
         <ListView Name="listViewColumn">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="100" Header="Name 
-                                    Type" DisplayMemberBinding="{Binding TypeName}"/>
+                    <GridViewColumn Width="100" Header="Family Name" DisplayMemberBinding="{Binding FamilyName     }"/>
                     <GridViewColumn Width="100" Header="Id"
-                                    DisplayMemberBinding="{Binding ElementId}"/>
-                    <GridViewColumn Width="100" Header="Commnet"
-                                    DisplayMemberBinding="{Binding CommentColumn}"/>
+                                    DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Width="100" Header="Type Id"
+                                    DisplayMemberBinding="{Binding TypeId}"/>
+                    <GridViewColumn Width="100" Header="Type Name"
+                DisplayMemberBinding="{Binding TypeName}"/>
                     
                 </GridView>
             </ListView.View>

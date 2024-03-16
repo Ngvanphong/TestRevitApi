@@ -12,31 +12,37 @@ using System.Windows.Forms;
 
 namespace TestRevitApi
 {
-   
+
     [Transaction(TransactionMode.Manual)]
     public class Command : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            UIDocument uiDoc = commandData.Application.ActiveUIDocument;
-            Document doc = uiDoc.Document;
-            IEnumerable<FamilyInstance> colleciton = new FilteredElementCollector(doc, doc.ActiveView.Id)
-                .OfCategory(BuiltInCategory.OST_StructuralColumns).OfClass(typeof(FamilyInstance)).
-                WhereElementIsNotElementType().Cast<FamilyInstance>();
+            Document doc = commandData.Application.ActiveUIDocument.Document;
+            IEnumerable<Family> allFamilyCollection = new FilteredElementCollector(doc)
+                .OfClass(typeof(Family)).Cast<Family>();
 
-
-            List<ColumnData> columns = new List<ColumnData>();
-            foreach (var item in colleciton)
+            IEnumerable<Family> columnBeamCollection = allFamilyCollection.Where(
+            x => x.FamilyCategory != null
+            &&
+            (x.FamilyCategory.Id.Value == (int)BuiltInCategory.OST_StructuralColumns
+            || x.FamilyCategory.Id.Value == (int)BuiltInCategory.OST_StructuralFraming)
+            );
+            IList<FamilyType> familyTypes = new List<FamilyType>();
+            foreach(var family in  columnBeamCollection)
             {
-                string comment = item.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).AsString();
-                ColumnData columnData = new ColumnData(item.Name, comment, item.Id);
-                columns.Add(columnData);
+                var typeIds = family.GetFamilySymbolIds();
+                foreach(ElementId typeId in typeIds)
+                {
+                    Element type= doc.GetElement(typeId);
+                    FamilyType familyType = new FamilyType(family.Id, family.Name, type.Name, typeId);
+                    familyTypes.Add(familyType);
+                }
+                
             }
-
-            ListBoxColumn form = new ListBoxColumn();
-            form.listViewColumn.ItemsSource = columns;
-            form.Show();
-
+            var form = new ListBoxColumn();
+            form.listViewColumn.ItemsSource= familyTypes;
+            form.ShowDialog();
 
             return Result.Succeeded;
         }

@@ -72,22 +72,15 @@
     <Compile Include="Command.cs" />
     <Compile Include="ElementName.cs" />
     <Compile Include="Extension.cs" />
+    <Compile Include="FamilyType.cs" />
     <Compile Include="ListBoxColumn.xaml.cs">
       <DependentUpon>ListBoxColumn.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PipeSystemTypeData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test1.cs" />
-    <Compile Include="wpfListpipe.xaml.cs">
-      <DependentUpon>wpfListpipe.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="ListBoxColumn.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="wpfListpipe.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
