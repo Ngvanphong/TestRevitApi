@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Forms;
 
 namespace TestRevitApi
@@ -36,12 +37,13 @@ namespace TestRevitApi
                 {
                     Element type= doc.GetElement(typeId);
                     FamilyType familyType = new FamilyType(family.Id, family.Name, type.Name, typeId);
+
                     familyTypes.Add(familyType);
                 }
                 
             }
-            var form = new ListBoxColumn();
-            form.listViewColumn.ItemsSource= familyTypes;
+            var form = new ListBoxColumn(familyTypes);
+            
             form.ShowDialog();
 
             return Result.Succeeded;

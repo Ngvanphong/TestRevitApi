@@ -20,9 +20,15 @@ namespace TestRevitApi
     /// </summary>
     public partial class ListBoxColumn : Window
     {
-        public ListBoxColumn()
+        public ListBoxColumn(IList<FamilyType> listFamilyType)
         {
             InitializeComponent();
+            listViewColumn.ItemsSource = listFamilyType;
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listViewColumn.ItemsSource);
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("FamilyName");
+            view.GroupDescriptions.Add(groupDescription);
+            
+
         }
     }
 }
