@@ -45,7 +45,7 @@ namespace TestRevitApi
                 familyTypes.Add(familyData);  
             }
             var form = new DataGridFrom();
-            form.dataGrid.ItemsSource= familyTypes;
+            form.treeViewFamily.ItemsSource= familyTypes;
             form.Show();
             return Result.Succeeded;
         }

@@ -27,7 +27,7 @@
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
-        <DataGrid Name="dataGrid" AutoGenerateColumns="False">
+        <!--<DataGrid Name="dataGrid" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Famly Name" Binding="{Binding FamilyName}"/>
                 <DataGridTemplateColumn Header="Type Name">
@@ -45,7 +45,31 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
             
-        </DataGrid>
+        </DataGrid>-->
+
+        <TreeView Name="treeViewFamily">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type local:FamilyData}" ItemsSource="{Binding TypeDatas}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="Blue" Text="{Binding FamilyName}"/>
+                        <TextBlock Text="- Id= "/>
+                        <TextBlock Text="{Binding Id}"/>
+                    </StackPanel> 
+                </HierarchicalDataTemplate>
+
+                <DataTemplate DataType="{x:Type local:TypeData}" >
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Foreground="Red" Text="{Binding TypeName}"/>
+                            <TextBlock Text="- Id= "/>
+                            <TextBlock Text="{Binding TypeId}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+                
+            </TreeView.Resources>
+            
+        </TreeView>
 
         <Button Style="{StaticResource templateButton}" HorizontalAlignment="Right" Grid.Row="1" Content="Button 1"/>
         <Button Style="{StaticResource templateButton}" HorizontalAlignment="Left" Grid.Row="1"  Content="Button 1"/>
