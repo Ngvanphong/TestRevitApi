@@ -16,19 +16,13 @@ using System.Windows.Shapes;
 namespace TestRevitApi
 {
     /// <summary>
-    /// Interaction logic for ListBoxColumn.xaml
+    /// Interaction logic for DataGrid.xaml
     /// </summary>
-    public partial class ListBoxColumn : Window
+    public partial class DataGridFrom : Window
     {
-        public ListBoxColumn(IList<FamilyData> listFamilyType)
+        public DataGridFrom()
         {
             InitializeComponent();
-            listViewColumn.ItemsSource = listFamilyType;
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listViewColumn.ItemsSource);
-            PropertyGroupDescription groupDescription = new PropertyGroupDescription("FamilyName");
-            view.GroupDescriptions.Add(groupDescription);
-            
-
         }
     }
 }

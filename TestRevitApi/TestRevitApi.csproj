@@ -70,9 +70,12 @@
     <Compile Include="App.cs" />
     <Compile Include="ColumnData.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="DataGridFrom.xaml.cs">
+      <DependentUpon>DataGridFrom.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ElementName.cs" />
     <Compile Include="Extension.cs" />
-    <Compile Include="FamilyType.cs" />
+    <Compile Include="FamilyData.cs" />
     <Compile Include="ListBoxColumn.xaml.cs">
       <DependentUpon>ListBoxColumn.xaml</DependentUpon>
     </Compile>
@@ -80,6 +83,10 @@
     <Compile Include="Test1.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="DataGridFrom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ListBoxColumn.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

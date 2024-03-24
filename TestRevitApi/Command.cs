@@ -29,23 +29,24 @@ namespace TestRevitApi
             (x.FamilyCategory.Id.Value == (int)BuiltInCategory.OST_StructuralColumns
             || x.FamilyCategory.Id.Value == (int)BuiltInCategory.OST_StructuralFraming)
             );
-            IList<FamilyType> familyTypes = new List<FamilyType>();
+            IList<FamilyData> familyTypes = new List<FamilyData>();
             foreach(var family in  columnBeamCollection)
             {
+                FamilyData familyData = new FamilyData(family.Id,family.Name);
                 var typeIds = family.GetFamilySymbolIds();
+                List<TypeData> listTypeData = new List<TypeData>();
                 foreach(ElementId typeId in typeIds)
                 {
                     Element type= doc.GetElement(typeId);
-                    FamilyType familyType = new FamilyType(family.Id, family.Name, type.Name, typeId);
-
-                    familyTypes.Add(familyType);
+                    TypeData typeData = new TypeData(type.Name, typeId);
+                    listTypeData.Add(typeData); 
                 }
-                
+                familyData.TypeDatas = listTypeData;
+                familyTypes.Add(familyData);  
             }
-            var form = new ListBoxColumn(familyTypes);
-            
-            form.ShowDialog();
-
+            var form = new DataGridFrom();
+            form.dataGrid.ItemsSource= familyTypes;
+            form.Show();
             return Result.Succeeded;
         }
         

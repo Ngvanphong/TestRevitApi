@@ -8,17 +8,28 @@ using System.Threading.Tasks;
 
 namespace TestRevitApi
 {
-    public class FamilyType
+    public class FamilyData
     {
         public ElementId Id { set; get; }
         public string FamilyName { set; get; }
+        
+        public List<TypeData> TypeDatas { set; get; }
+        
+        public FamilyData(ElementId id, string familyName)
+        {
+            (Id, FamilyName) = (id, familyName);
+        }
+
+    }
+
+    public class TypeData
+    {
         public string TypeName { set; get; }
         public ElementId TypeId { set; get; }
-        public int CountTypes { set; get; }
-        public FamilyType(ElementId id, string familyName, string typeName, ElementId typeId)
+        public TypeData(string typeName, ElementId typeId)
         {
-            (Id,FamilyName,TypeName,TypeId)= (id, familyName,typeName, typeId);
+            (TypeName, TypeId)= (typeName, typeId);
         }
-        
     }
+
 }
